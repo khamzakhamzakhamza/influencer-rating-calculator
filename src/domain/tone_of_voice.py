@@ -1,7 +1,7 @@
 from enum import Enum
 
 class ToneOfVoice(str, Enum):
-    SCIENTIFIC = "scientific "
+    SCIENTIFIC = "scientific"
     EDUCATIONAL = "educational"
     PROFESSIONAL = "professional"
     COMEDIC = "comedic"
