@@ -1,6 +1,6 @@
 from typing import List, Optional
 from pydantic import BaseModel
-from ..domain.influencer import Influencer
+from ..influencer import Influencer
 
 class CalculateRequest(BaseModel):
 	topic: Optional[str] = None

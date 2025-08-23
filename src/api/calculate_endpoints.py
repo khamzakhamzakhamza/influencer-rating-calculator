@@ -1,7 +1,8 @@
 from typing import List
 from fastapi import APIRouter
-from .calculate_request import CalculateRequest
-from .calculate_response import CalculateResponse
+from ..domain.calculator.calculate_handler import CalculateHandler
+from ..domain.calculator.calculate_request import CalculateRequest
+from ..domain.calculator.calculate_response import CalculateResponse
 
 router = APIRouter(
 	prefix="/calculate",
@@ -10,5 +11,5 @@ router = APIRouter(
 
 @router.post("/", response_model=List[CalculateResponse])
 def calculate_rating(request: CalculateRequest):
-	response = [CalculateResponse(id = 'example_id', rating = 0.75)]
-	return response
+	handler = CalculateHandler()
+	return handler.calculate(request)	
