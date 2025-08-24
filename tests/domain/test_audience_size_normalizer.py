@@ -9,7 +9,7 @@ from src.domain.calculator.metric_normalizers.audience_size_normalizer import Au
     (1_000_000, 1.0),
     (1_000_001, 1.0),
 ])
-def test_normalize_when_(value, expected):
+def test_normalize_when_valid_values_should_normalize(value, expected):
     # Arrange
     normalizer = AudienceSizeNormalizer()
 
