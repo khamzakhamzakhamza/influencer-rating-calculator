@@ -11,23 +11,20 @@ class EngagementPerAudienceNormalizer:
 
 		for post in [p for p in posts if (now - p.time).days <= max_days]:
 			engagement = post.reactions + post.comments + post.reposts
-			if engagement > audience.size:
-				raise ValueError(f"Engagement ({engagement}) cannot be greater than audience size ({audience.size})")
-			
-			engagement_to_posts.append((post.reactions + post.comments + post.reposts) / audience.size)
+			engagement_to_posts.append(engagement / audience.size)
 
 		median_engagement = statistics.median(engagement_to_posts)
 		expected_median = self._expected_median(audience)
 		
-		return round(max(0, median_engagement / (expected_median * 2)), 3)
+		return round(min(1, median_engagement / (expected_median * 2)), 3)
 	
 	def _expected_median(self, audience: Audience) -> float:
 		if audience.size < 5000:
-			return 2.4
+			return 0.24
 		if audience.size < 10000:
-			return 3.3
+			return 0.33
 		if audience.size < 25000:
-			return 1.1
+			return 0.11
 		if audience.size < 100_000:
-			return 0.9
-		return 0.38
+			return 0.09
+		return 0.04
