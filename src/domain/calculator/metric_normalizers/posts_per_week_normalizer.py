@@ -6,10 +6,9 @@ from ...audience import Audience
 from ...post import Post
 
 class PostsPerWeekNormalizer:
-	def normalize(self, audience: Audience, posts: List[Post]) -> float:
+	def normalize(self, audience: Audience, posts: List[Post],  now: datetime = datetime.now()) -> float:
 		max_days = 84  # 12 weeks
 		weeks_to_posts = [0] * 12
-		now = datetime.now()
 
 		for post in [p for p in posts if (now - p.time).days <= max_days]:
 			delta_days = (now - post.time).days

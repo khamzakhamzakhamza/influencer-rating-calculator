@@ -1,0 +1,33 @@
+from datetime import datetime
+import statistics
+from typing import List
+from ...audience import Audience
+from ...post import Post
+
+class EngagementPerAudienceNormalizer:
+	def normalize(self, audience: Audience, posts: List[Post],  now: datetime = datetime.now()) -> float:
+		max_days = 84  # 12 weeks
+		engagement_to_posts = []
+
+		for post in [p for p in posts if (now - p.time).days <= max_days]:
+			engagement = post.reactions + post.comments + post.reposts
+			if engagement > audience.size:
+				raise ValueError(f"Engagement ({engagement}) cannot be greater than audience size ({audience.size})")
+			
+			engagement_to_posts.append((post.reactions + post.comments + post.reposts) / audience.size)
+
+		median_engagement = statistics.median(engagement_to_posts)
+		expected_median = self._expected_median(audience)
+		
+		return round(max(0, median_engagement / (expected_median * 2)), 3)
+	
+	def _expected_median(self, audience: Audience) -> float:
+		if audience.size < 5000:
+			return 2.4
+		if audience.size < 10000:
+			return 3.3
+		if audience.size < 25000:
+			return 1.1
+		if audience.size < 100_000:
+			return 0.9
+		return 0.38
