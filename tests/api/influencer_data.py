@@ -10,7 +10,7 @@ influencer = {
 	},
 	"relevant_works_count": 5,
 	"relevant_events_count": 2,
-	"tone_of_voice": "scientific",
+	"tone_of_voice": "professional",
 	"posts": [
 		{
 			"id": str(uuid.uuid4()),
