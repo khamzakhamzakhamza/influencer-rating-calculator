@@ -20,10 +20,12 @@ class CalculateHandler:
 				'audience_makeup': AudienceMakeupNormalizer().normalize(influencer.audience),
 				'posts_per_week': PostsPerWeekNormalizer().normalize(influencer.audience, influencer.posts),
 				'engagement_per_audience': EngagementPerAudienceNormalizer().normalize(influencer.audience, influencer.posts),
-				'relevant_events': RelevantEventsNormalizer().normalize(influencer.relevant_events_count) if request.topic else 0.0,
-				'relevant_works': RelevantWorksNormalizer().normalize(influencer.relevant_works_count) if request.topic else 0.0,
 				'tone_of_voice': ToneOfVoiceNormalizer().normalize(influencer.tone_of_voice)
 			}
+
+			if request.topic:
+				metrics['relevant_events'] = RelevantEventsNormalizer().normalize(influencer.relevant_events_count)
+				metrics['relevant_works'] = RelevantWorksNormalizer().normalize(influencer.relevant_works_count)
 
 			rating.append(CalculateResponse(id=influencer.id, rating=RatigCalculator().calculate(metrics), **metrics))
 

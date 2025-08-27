@@ -29,7 +29,7 @@ def test_calculate_rating_when_no_topic_provided_should_calculate_general_rating
     assert first.posts_per_week == 0.425
     assert first.engagement_per_audience == 0.026
     assert first.tone_of_voice == 1.0
-    assert first.rating == 0.332
+    assert first.rating == 0.464
 
 def test_calculate_rating_when_topic_provided_should_calculate_topical_rating():
     # Arrange
