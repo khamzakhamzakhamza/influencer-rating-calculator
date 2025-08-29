@@ -30,7 +30,7 @@ jobs:
         run: |
           source venv/bin/activate
           export PYTHONPATH=$(pwd)
-          pytest api/tests/
+          pytest tests/
 
   image-build-and-push:
     name: Build and Push Docker Image
