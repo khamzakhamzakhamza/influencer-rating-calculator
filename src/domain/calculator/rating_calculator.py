@@ -1,4 +1,10 @@
+from src.domain.di_setup import get_weights_retriever
+from .weights_multiplier_retriever_protocol import WeightsMultiplierRetriever
+
 class RatigCalculator:
+	def __init__(self, retriever: WeightsMultiplierRetriever | None = None):
+		self._retriever = retriever or get_weights_retriever()
+
 	def calculate(self, metrics: dict) -> float:
 		weights = {}
 
