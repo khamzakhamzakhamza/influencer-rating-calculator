@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 import math
 import statistics
 from typing import List
@@ -6,7 +6,7 @@ from ...audience import Audience
 from ...post import Post
 
 class PostsPerWeekNormalizer:
-	def normalize(self, audience: Audience, posts: List[Post],  now: datetime = datetime.now()) -> float:
+	def normalize(self, audience: Audience, posts: List[Post],  now: datetime = datetime.now(timezone.utc)) -> float:
 		max_days = 84  # 12 weeks
 		weeks_to_posts = [0] * 12
 

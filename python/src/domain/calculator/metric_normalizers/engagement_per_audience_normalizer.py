@@ -1,17 +1,20 @@
-from datetime import datetime
+from datetime import datetime, timezone
 import statistics
 from typing import List
 from ...audience import Audience
 from ...post import Post
 
 class EngagementPerAudienceNormalizer:
-	def normalize(self, audience: Audience, posts: List[Post],  now: datetime = datetime.now()) -> float:
+	def normalize(self, audience: Audience, posts: List[Post],  now: datetime = datetime.now(timezone.utc)) -> float:
+		if audience.executive + audience.professionals > audience.size:
+			raise ValueError("Invalid audience makeup: sum of executives and professionals exceeds total size")
+		
 		max_days = 84  # 12 weeks
 		engagement_to_posts = []
 
 		for post in [p for p in posts if (now - p.time).days <= max_days]:
 			engagement = post.reactions + post.comments + post.reposts
-			engagement_to_posts.append(engagement / audience.size)
+			engagement_to_posts.append(engagement / (audience.size + 1))
 
 		median_engagement = statistics.median(engagement_to_posts)
 		expected_median = self._expected_median(audience)

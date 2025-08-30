@@ -18,11 +18,11 @@ def test_normalize_when_valid_values_should_normalize(value, exec, prof, expecte
     # Assert
     assert normalized_value == expected
 
-def test_normalize_raises_when_exec_plus_prof_exceeds_size_should_throw():
+def test_normalize_when_exec_plus_prof_exceeds_size_should_throw():
     # Arrange
     normalizer = AudienceMakeupNormalizer()
+    audience = Audience(size=100, executive=60, professionals=50)
 
     # Act / Assert
-    audience = Audience(size=100, executive=60, professionals=50)
     with pytest.raises(ValueError, match="Invalid audience makeup"):
         normalizer.normalize(audience)

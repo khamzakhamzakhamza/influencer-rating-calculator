@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import uuid
 import pytest
 from src.domain.audience import Audience
@@ -39,7 +39,7 @@ def test_normalize_when_posts_older_than_three_month_should_ignore():
     assert normalized_value == 0.925
 
 def post_factory(days_ago=0, **kwargs) -> Post:
-    now = datetime.now()
+    now = datetime.now(timezone.utc)
     
     return Post(
         id = kwargs.get("id", str(uuid.uuid4())),
