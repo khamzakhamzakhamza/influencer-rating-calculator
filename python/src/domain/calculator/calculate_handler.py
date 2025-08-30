@@ -27,6 +27,6 @@ class CalculateHandler:
 				metrics['relevant_events'] = RelevantEventsNormalizer().normalize(influencer.relevant_events_count)
 				metrics['relevant_works'] = RelevantWorksNormalizer().normalize(influencer.relevant_works_count)
 
-			rating.append(CalculateResponse(id=influencer.id, rating=RatigCalculator().calculate(metrics), **metrics))
+			rating.append(CalculateResponse(id=influencer.id, name=influencer.name, rating=RatigCalculator().calculate(metrics), **metrics))
 
 		return rating

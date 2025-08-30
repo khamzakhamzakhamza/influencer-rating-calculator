@@ -6,6 +6,7 @@ from .post import Post
 
 class Influencer(BaseModel):
     id: str
+    name: str
     audience: Audience
     relevant_works_count: int
     relevant_events_count: int

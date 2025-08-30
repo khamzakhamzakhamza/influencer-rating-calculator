@@ -3,6 +3,7 @@ from pydantic import BaseModel
 
 class CalculateResponse(BaseModel):
 	id: str
+	name: str
 	audience_size: float
 	audience_makeup: float
 	posts_per_week: float

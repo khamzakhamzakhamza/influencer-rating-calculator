@@ -24,6 +24,7 @@ def test_calculate_rating_when_no_topic_provided_should_calculate_general_rating
     parsed: List[CalculateResponse] = adapter.validate_python(response.json())
     first = parsed[0]
     assert first.id == influencer["id"]
+    assert first.name == influencer["name"]
     assert first.audience_size == 0.364
     assert first.audience_makeup == 0.506
     assert first.posts_per_week == 0.425
@@ -49,6 +50,7 @@ def test_calculate_rating_when_topic_provided_should_calculate_topical_rating():
     parsed: List[CalculateResponse] = adapter.validate_python(response.json())
     first = parsed[0]
     assert first.id == influencer["id"]
+    assert first.name == influencer["name"]
     assert first.audience_size == 0.364
     assert first.audience_makeup == 0.506
     assert first.posts_per_week == 0.425
