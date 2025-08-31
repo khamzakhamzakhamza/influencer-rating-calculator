@@ -32,6 +32,27 @@ jobs:
           export PYTHONPATH=$(pwd)/python
           pytest python/tests/
 
+  build-frontend:
+    name: Build React UI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "23.x"
+
+      - name: Install Dependencies
+        working-directory: node
+        run: npm ci
+
+      - name: Build UI
+        working-directory: node
+        run: npm run build
+
   image-build-and-push:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest

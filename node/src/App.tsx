@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { v4 as uuidv4 } from "uuid";
 import InfluencerForm from './InfluencerForm'
 import { ToneOfVoice } from './models/ToneOfVoice';
-import { Row, Col, Button, Card, Form, theme, Layout, Typography, Flex } from 'antd';
+import { Row, Col, Button, Form, theme, Layout, Typography, Flex } from 'antd';
 import type { Influencer } from './models/Influencer';
 import type { RateRequest } from './services/RateRequest';
 import { RatingService } from './services/RatingService';
