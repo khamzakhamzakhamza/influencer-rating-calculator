@@ -3,9 +3,9 @@ from src.domain.audience import Audience
 from src.domain.calculator.metric_normalizers.audience_size_normalizer import AudienceSizeNormalizer
 
 @pytest.mark.parametrize("value, expected", [
-    (0, 0.025),
-    (2500, 0.574),
-    (5000, 0.758),
+    (0, 0.01),
+    (2500, 0.229),
+    (5000, 0.302),
     (1_000_000, 1.0),
     (1_000_001, 1.0),
 ])

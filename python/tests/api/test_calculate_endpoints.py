@@ -25,12 +25,12 @@ def test_calculate_rating_when_no_topic_provided_should_calculate_general_rating
     first = parsed[0]
     assert first.id == influencer["id"]
     assert first.name == influencer["name"]
-    assert first.audience_size == 0.364
+    assert first.audience_size == 0.145
     assert first.audience_makeup == 0.506
     assert first.posts_per_week == 0.425
     assert first.engagement_per_audience == 0.026
     assert first.tone_of_voice == 1.0
-    assert first.rating == 0.464
+    assert first.rating == 0.42
 
 def test_calculate_rating_when_topic_provided_should_calculate_topical_rating():
     # Arrange
@@ -51,11 +51,11 @@ def test_calculate_rating_when_topic_provided_should_calculate_topical_rating():
     first = parsed[0]
     assert first.id == influencer["id"]
     assert first.name == influencer["name"]
-    assert first.audience_size == 0.364
+    assert first.audience_size == 0.145
     assert first.audience_makeup == 0.506
     assert first.posts_per_week == 0.425
     assert first.engagement_per_audience == 0.026
     assert first.tone_of_voice == 1.0
     assert first.relevant_events == 0.003
     assert first.relevant_works == 0.062
-    assert first.rating == 0.341
+    assert first.rating == 0.31
