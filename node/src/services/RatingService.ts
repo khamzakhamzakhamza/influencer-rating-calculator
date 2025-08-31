@@ -2,7 +2,7 @@ import type { RateRequest } from "./RateRequest";
 import type { RateResponse } from "./RateResponse";
 
 //todo: Make cofigurable
-const url = "http://localhost:8000";
+const url = "http://influencer-rating-calculator-alb-2029010863.eu-central-1.elb.amazonaws.com/";
 
 export class RatingService {
   async rate(request: RateRequest): Promise<RateResponse[]> {

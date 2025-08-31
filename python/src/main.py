@@ -9,6 +9,7 @@ from .api.calculate_endpoints import router as calculate_router
 app = FastAPI()
 
 origins = [
+    "http://influencer-rating-calculator-alb-2029010863.eu-central-1.elb.amazonaws.com/", # AWS ALB
     "http://localhost:5173",   # React dev server
     "http://localhost:8080",
     "http://127.0.0.1:8080",
