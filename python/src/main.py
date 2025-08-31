@@ -8,9 +8,6 @@ from .api.calculate_endpoints import router as calculate_router
 
 app = FastAPI()
 
-frontend_dir = os.path.join(os.path.dirname(__file__), "../../node/dist")
-app.mount("/static", StaticFiles(directory=frontend_dir, html=True), name="static")
-
 origins = [
     "http://localhost:5173",   # React dev server
     "http://localhost:8080",
@@ -29,15 +26,20 @@ app.add_middleware(
 
 app.include_router(calculate_router)
 
-@app.get("/")
-async def read_root():
-    index_path = os.path.join(frontend_dir, "index.html")
-    return FileResponse(index_path)
+frontend_dir = os.path.join(os.path.dirname(__file__), "../../node/dist")
 
-@app.get("/assets/{file}")
-async def read_asset(file: str):
-    asset_path = os.path.join(frontend_dir, "assets", file)
-    return FileResponse(asset_path)
+if os.path.isdir(frontend_dir):
+    app.mount("/static", StaticFiles(directory=frontend_dir, html=True), name="static")
+
+    @app.get("/")
+    async def read_root():
+        index_path = os.path.join(frontend_dir, "index.html")
+        return FileResponse(index_path)
+
+    @app.get("/assets/{file}")
+    async def read_asset(file: str):
+        asset_path = os.path.join(frontend_dir, "assets", file)
+        return FileResponse(asset_path)
 
 @app.exception_handler(ValueError)
 async def value_error_handler(_: Request, exc: ValueError):
