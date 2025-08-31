@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import { v4 as uuidv4 } from "uuid";
-import './App.css'
 import InfluencerForm from './InfluencerForm'
 import { ToneOfVoice } from './models/ToneOfVoice';
-import { Button, Card, Form } from 'antd';
+import { Row, Col, Button, Card, Form, theme, Layout, Typography, Flex } from 'antd';
 import type { Influencer } from './models/Influencer';
+import type { RateRequest } from './services/RateRequest';
+import { RatingService } from './services/RatingService';
+import type { RateResponse } from './services/RateResponse';
+import RatingCard from './RatingCard';
 
 const newPost = () => ({
   id: uuidv4(),
@@ -31,8 +34,34 @@ const newInfluencer = () => ({
   posts: [newPost()],
 });
 
+const service = new RatingService();
+
+const { Header, Content, Footer } = Layout;
+
+const { Title } = Typography;
+
 function App() {
   const [influencers, setInfluencers] = useState<Influencer[]>([newInfluencer()]);
+  const [loading, setLoading] = useState(false);
+  const [ratings, setRatings] = useState<RateResponse[] | undefined>();
+
+  const {
+    token: { colorBgLayout },
+  } = theme.useToken();
+
+  const calculate = async () => {
+    setLoading(true);
+    
+    try {
+      const request: RateRequest = { influencers };
+      const response = await service.rate(request);
+      setRatings(response);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const addPost = (index: number) => {
     const updatedInfluencers = [...influencers];
@@ -50,27 +79,57 @@ function App() {
   };
 
   return (
-    <>
-      <h1>Influencer Rating Calculator</h1>
+    <Layout style={{  minHeight: "100vh", minWidth: "100vw" }}>
+      <Header style={{ background: colorBgLayout, height: 90 }}>
+        <Flex justify="center" align="middle" style={{ height: '100%' }}>
+          <Title>Influencer Rating Calculator</Title>
+        </Flex>
+      </Header>
       
-      <Card style={{ maxWidth: 540 }}>
-        <Form layout="vertical">
-          <Form.Item label="Influencers">
-            {influencers.map((influencer, idx) =>
-              <InfluencerForm key={idx} 
-                influencer={influencer} 
-                addPost={() => addPost(idx)}
-                onChange={(updated) => updateInfluencer(idx, updated)}
-                onDelete={() => setInfluencers(influencers.filter((_, i) => i !== idx))}
-              />
-            )}
-            <Button type="primary" onClick={()=> setInfluencers([...influencers, newInfluencer()])}>
-              Add Influencer
-            </Button>
-          </Form.Item>
-        </Form>
-      </Card>
-    </>
+      <Content>
+        <Flex justify="center" align="middle">
+          <Row style={{ width: 1100 }}>
+            <Col span={10}>
+              <div style={{ maxWidth: 540, background: colorBgLayout }}>
+                <Form layout="vertical">
+                  {influencers.map((influencer, idx) =>
+                    <InfluencerForm key={idx} 
+                      influencer={influencer} 
+                      addPost={() => addPost(idx)}
+                      onChange={(updated) => updateInfluencer(idx, updated)}
+                      onDelete={() => setInfluencers(influencers.filter((_, i) => i !== idx))}
+                    />
+                  )}
+                  <Button type="primary" onClick={()=> setInfluencers([...influencers, newInfluencer()])}>
+                    Add Influencer
+                  </Button>
+                </Form>
+              </div>
+            </Col>
+            <Col span={4}>
+              <Flex justify="center" align="middle" style={{ height: '100%', paddingTop: 25 }}>
+                <Button 
+                  type="primary"
+                  loading={loading} 
+                  onClick={calculate}
+                >
+                  Calculate
+                </Button>
+              </Flex>
+            </Col>
+            <Col span={10}>
+              <div style={{ maxWidth: 540, background: colorBgLayout }}>
+                {ratings && ratings.length > 0 
+                  ? (ratings.map((rating, idx) => <RatingCard key={idx} rating={rating} />)) 
+                  : (<p>Fill influencers data and click "Calculate"</p>)}
+              </div>
+            </Col>
+          </Row>
+        </Flex>
+      </Content>
+
+      <Footer style={{ textAlign: 'center' }}>Influencer Rating Calculator ©2025</Footer>
+    </Layout>
   )
 }
 

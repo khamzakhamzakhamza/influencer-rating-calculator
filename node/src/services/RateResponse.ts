@@ -1,5 +1,6 @@
 export interface RateResponse {
   id: string;
+  name: string;
   audience_size: number;
   audience_makeup: number;
   posts_per_week: number;
