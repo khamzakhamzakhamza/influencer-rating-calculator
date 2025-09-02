@@ -128,7 +128,7 @@ function App() {
         </Flex>
       </Content>
 
-      <Footer style={{ textAlign: 'center' }}>Influencer Rating Calculator ©2025</Footer>
+      <Footer style={{ textAlign: 'center' }}>Aurora ©2025</Footer>
     </Layout>
   )
 }

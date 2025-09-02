@@ -1,8 +1,6 @@
 from typing import List
 from .rating_calculator import RatigCalculator
 from .metric_normalizers.tone_of_voice_normalizer import ToneOfVoiceNormalizer
-from .metric_normalizers.relevant_events_normalizer import RelevantEventsNormalizer
-from .metric_normalizers.relevant_works_normalizer import RelevantWorksNormalizer
 from .metric_normalizers.engagement_per_audience_normalizer import EngagementPerAudienceNormalizer
 from .metric_normalizers.posts_per_week_normalizer import PostsPerWeekNormalizer
 from .metric_normalizers.audience_size_normalizer import AudienceSizeNormalizer
@@ -22,10 +20,6 @@ class CalculateHandler:
 				'engagement_per_audience': EngagementPerAudienceNormalizer().normalize(influencer.audience, influencer.posts),
 				'tone_of_voice': ToneOfVoiceNormalizer().normalize(influencer.tone_of_voice)
 			}
-
-			if request.topic:
-				metrics['relevant_events'] = RelevantEventsNormalizer().normalize(influencer.relevant_events_count)
-				metrics['relevant_works'] = RelevantWorksNormalizer().normalize(influencer.relevant_works_count)
 
 			rating.append(CalculateResponse(id=influencer.id, name=influencer.name, rating=RatigCalculator().calculate(metrics), **metrics))
 
