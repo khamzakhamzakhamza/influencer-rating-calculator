@@ -6,17 +6,17 @@ from src.domain.calculator.metric_normalizers.posts_per_week_normalizer import P
 from src.domain.post import Post
 
 @pytest.mark.parametrize("audience_size, expected", [
-    (100, 0.925),
-    (5001, 0.8),
-    (10001, 0.25),
-    (25001, 0.225),
-    (100_001, 0),
+    (100, 0.553),
+    (5001, 0.794),
+    (10001, 0.712),
+    (25001, 0.694),
+    (100_001, 0.319),
 ])
 def test_normalize_when_give_valid_values_should_normalize(audience_size, expected):
     # Arrange
     normalizer = PostsPerWeekNormalizer()
     audience = Audience(size=audience_size, executive=10, professionals=80)
-    days = [0,2,9,14,16,22,24,27,28,37,42,45,47,52,55,62,67,72,74,77,84]
+    days = [0,2,9,14,16,22,24,27,28,37,42,45,47,52,55,62,67,72,74,77,84,2,9,14,16,22,24,27,28,37,42,45,47,52,55,62,67,72,74,77,84]
     posts = [ post_factory(d) for d in days ]
 
     # Act
@@ -36,7 +36,7 @@ def test_normalize_when_posts_older_than_three_month_should_ignore():
     normalized_value = normalizer.normalize(audience, posts)
 
     # Assert
-    assert normalized_value == 0.925
+    assert normalized_value == 0.78
 
 def post_factory(days_ago=0, **kwargs) -> Post:
     now = datetime.now(timezone.utc)
