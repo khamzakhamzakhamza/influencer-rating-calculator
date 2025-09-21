@@ -6,6 +6,9 @@ from ...post import Post
 
 class EngagementPerAudienceNormalizer:
 	def normalize(self, audience: Audience, posts: List[Post],  now: datetime = datetime.now(timezone.utc)) -> float:
+		if posts is None or len(posts) == 0:
+			return 0.0
+
 		if audience.executive + audience.professionals > audience.size:
 			raise ValueError("Invalid audience makeup: sum of executives and professionals exceeds total size")
 		
