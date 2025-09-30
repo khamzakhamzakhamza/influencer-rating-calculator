@@ -56,6 +56,8 @@ jobs:
   image-build-and-push:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write   # required for OIDC
     
     needs: 
       - test
@@ -64,6 +66,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/GitHubCicdRole
+          aws-region: eu-west-2
     
       - name: Set environment variables
         run: |
